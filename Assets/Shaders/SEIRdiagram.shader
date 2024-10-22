@@ -21,7 +21,7 @@ Shader "Custom/SEIRdiagram"
       _DeadPercent ("Dead Percent", Float) = 0
 
       [Header(Height)]
-      _Height ("Height", Float) = 1
+      _Height ("Height", Float) = 1.6
   }
 
   SubShader
