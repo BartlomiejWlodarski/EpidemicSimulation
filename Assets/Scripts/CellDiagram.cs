@@ -33,7 +33,12 @@ public class CellDiagram : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        n = UnityEngine.Random.Range(100, 100000);
+        i = UnityEngine.Random.Range(0.2f, 0.5f);
+        s = UnityEngine.Random.Range(0.1f, 0.4f);
+        e = UnityEngine.Random.Range(0.0f, (1.0f - i - s) * 0.75f);
+        r = UnityEngine.Random.Range(0.0f, (1.0f - r - s - e));
+        d = 1.0f - r - s - e - r;
     }
     
     // Update is called once per frame
