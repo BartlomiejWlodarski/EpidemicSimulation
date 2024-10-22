@@ -9,6 +9,13 @@ public class CellDiagram : MonoBehaviour
     public float d = 0.1f;
 
     public Material material;
+    [SerializeField] protected MeshRenderer mR;
+    protected MaterialPropertyBlock mPB;
+
+    private void Awake()
+    {
+        mPB = new MaterialPropertyBlock();
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,10 +26,14 @@ public class CellDiagram : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        material.SetFloat("_RecoveredPercent", r);
-        material.SetFloat("_SusceptiblePercent", s);
-        material.SetFloat("_ExposedPercent", e);
-        material.SetFloat("_InfectedPercent", i);
-        material.SetFloat("_DeadPercent", d);
+        mR.GetPropertyBlock(mPB);
+
+        mPB.SetFloat("_RecoveredPercent", r);
+        mPB.SetFloat("_SusceptiblePercent", s);
+        mPB.SetFloat("_ExposedPercent", e);
+        mPB.SetFloat("_InfectedPercent", i);
+        mPB.SetFloat("_DeadPercent", d);
+
+        mR.SetPropertyBlock(mPB);
     }
 }
