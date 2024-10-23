@@ -36,9 +36,14 @@ public class CellDiagram : MonoBehaviour
         n = UnityEngine.Random.Range(100, 100000);
         i = UnityEngine.Random.Range(0.2f, 0.5f);
         s = UnityEngine.Random.Range(0.1f, 0.4f);
-        e = UnityEngine.Random.Range(0.0f, (1.0f - i - s) * 0.75f);
-        r = UnityEngine.Random.Range(0.0f, (1.0f - r - s - e));
-        d = 1.0f - r - s - e - r;
+        e = UnityEngine.Random.Range(0.0f, (1.0f - i - s));
+        r = UnityEngine.Random.Range(0.0f, (1.0f - i - s - e));
+        d = 1.0f - i - s - e - r;
+        if (d < 0)
+        {
+            int x = 1;
+
+        }
     }
     
     // Update is called once per frame
