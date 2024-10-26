@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4990284166801132776}
   - component: {fileID: 7986523176893630381}
   - component: {fileID: 1751734329895690682}
+  - component: {fileID: 5243564092040501252}
   m_Layer: 0
   m_Name: Cell
   m_TagString: Untagged
@@ -109,6 +110,26 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5243564092040501252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8573071884874909613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bc402eeea5e1d1468e03d07151390d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  population:
+    N: 100000
+    S: 20000
+    E: 30000
+    I: 30000
+    R: 10000
+    D: 10000
+  diagram: {fileID: 8396165482493935037}
 --- !u!1001 &5367039220707929457
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -196,3 +217,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6301686507518937745, guid: 27d1426709d1c084cb951dfa691c1981, type: 3}
   m_PrefabInstance: {fileID: 5367039220707929457}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8396165482493935037 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4539243293708439756, guid: 27d1426709d1c084cb951dfa691c1981, type: 3}
+  m_PrefabInstance: {fileID: 5367039220707929457}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92788d3ab479d7f40b6a7d6401f071fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

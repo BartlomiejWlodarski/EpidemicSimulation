@@ -4,7 +4,7 @@ using Unity.Mathematics;
 
 public class CellDiagram : MonoBehaviour
 {
-    public int n = 100000;
+    public uint n = 100000;
     public float r = 0.1f;
     public float s = 0.2f;
     public float e = 0.3f;
@@ -13,8 +13,6 @@ public class CellDiagram : MonoBehaviour
 
     public float baseHeight = 0.8f; // Model height in scale = 1
     public float h = 1f;
-
-
 
     public const float minSize = 0.5f;
     public const float maxSize = 1.6f;
@@ -33,23 +31,17 @@ public class CellDiagram : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        n = UnityEngine.Random.Range(100, 100000);
-        i = UnityEngine.Random.Range(0.2f, 0.5f);
-        s = UnityEngine.Random.Range(0.1f, 0.4f);
-        e = UnityEngine.Random.Range(0.0f, (1.0f - i - s));
-        r = UnityEngine.Random.Range(0.0f, (1.0f - i - s - e));
-        d = 1.0f - i - s - e - r;
-        if (d < 0)
-        {
-            int x = 1;
 
-        }
     }
     
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void UpdateDiagram()
+    {
         float populationSize = Math.Clamp(n, minPopulation, maxPopulation);
         h = (((populationSize - minPopulation) / (maxPopulation - minPopulation)) * (maxSize - minSize)) + minSize;
         GetComponent<Transform>().localScale = new Vector3(h, h, h);
