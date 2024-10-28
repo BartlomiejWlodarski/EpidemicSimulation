@@ -24,6 +24,28 @@ public class SimulationManager : MonoBehaviour
 
     public GameObject cellsGrid;
 
+    public uint c;
+    public uint r;
+
+
+    [Header("Input data")]
+
+    public uint exposedDuration; // a
+    public uint infectiveDuration; // b
+
+    public float variationCoefficient; // c_v
+
+    public float contactRate; // beta
+
+    public float mortalityRate; // u_vm
+    public float deathsPerStep; // u_d
+    public float birthsPerStep; // u_b
+
+    public float healthyCommuting; // phi_h
+    public float infectedCommuting; // phi_s
+    public float outsideCommuting; // phi_c
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -31,6 +53,8 @@ public class SimulationManager : MonoBehaviour
         for (int i = 1; i < cellsGrid.transform.childCount; i++)
         {
             cells.Add(cellsGrid.transform.GetChild(i).GetComponent<Cell>());
+            cells[i - 1].j = (uint)(i - 1) % c;
+            cells[i - 1].i = (uint)(i - 1 - cells[i - 1].j) / c;
         }
         
         // Initialize cells and diagrams

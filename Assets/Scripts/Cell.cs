@@ -24,12 +24,13 @@ public class Cell : MonoBehaviour
 
     public void UpdateDiagram()
     {
-        diagram.n = population.N;
-        diagram.s = (float)population.S / (float)population.N;
-        diagram.e = (float)population.E / (float)population.N;
-        diagram.i = (float)population.I / (float)population.N;
-        diagram.r = (float)population.R / (float)population.N;
-        diagram.d = (float)population.D / (float)population.N;
+        // For the sake of visualisation, we add the dead to the population.
+        diagram.n = population.N + population.D;
+        diagram.s = (float)population.S / (float)diagram.n;
+        diagram.e = (float)population.E / (float)diagram.n;
+        diagram.i = (float)population.I / (float)diagram.n;
+        diagram.r = (float)population.R / (float)diagram.n;
+        diagram.d = (float)population.D / (float)diagram.n;
 
         diagram.UpdateDiagram();
     }

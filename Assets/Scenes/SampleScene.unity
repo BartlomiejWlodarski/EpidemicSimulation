@@ -1397,6 +1397,8 @@ MonoBehaviour:
   cells: []
   days: 0
   cellsGrid: {fileID: 980536717}
+  c: 10
+  r: 10
 --- !u!4 &272521203
 Transform:
   m_ObjectHideFlags: 0
