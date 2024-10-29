@@ -2,7 +2,6 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static SimulationManager;
 
 public class SimulationUIManager : MonoBehaviour
 {
@@ -36,4 +35,8 @@ public class SimulationUIManager : MonoBehaviour
         statBar.UpdateBars();
     }
 
+    public void OnQuitClick()
+    {
+        Application.Quit();
+    }
 }
