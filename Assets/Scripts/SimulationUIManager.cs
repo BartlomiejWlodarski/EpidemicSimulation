@@ -6,31 +6,34 @@ using static SimulationManager;
 
 public class SimulationUIManager : MonoBehaviour
 {
-    public SimulationManager simulation;
+    public SimulationManager sim;
 
     public List<TMP_Text> simulationInfoHeaders;
+    public StatBarController statBar;
 
     private int lastDays = -1;
 
 
     private void Update()
     {
-        if (simulation.days > lastDays)
+        if (sim.days > lastDays)
         {
-            lastDays = (int)simulation.days;
+            lastDays = (int)sim.days;
             UpdateSimulationInfoHeaders();
         }
     }
 
     private void UpdateSimulationInfoHeaders()
     {
-        simulationInfoHeaders[0].text = simulation.days.ToString();
-        simulationInfoHeaders[1].text = simulation.population.N.ToString();
-        simulationInfoHeaders[2].text = simulation.population.S.ToString();
-        simulationInfoHeaders[3].text = simulation.population.E.ToString();
-        simulationInfoHeaders[4].text = simulation.population.I.ToString();
-        simulationInfoHeaders[5].text = simulation.population.R.ToString();
-        simulationInfoHeaders[6].text = simulation.population.D.ToString();
+        simulationInfoHeaders[0].text = sim.days.ToString();
+        simulationInfoHeaders[1].text = sim.population.N.ToString();
+        simulationInfoHeaders[2].text = sim.population.S.ToString();
+        simulationInfoHeaders[3].text = sim.population.E.ToString();
+        simulationInfoHeaders[4].text = sim.population.I.ToString();
+        simulationInfoHeaders[5].text = sim.population.R.ToString();
+        simulationInfoHeaders[6].text = sim.population.D.ToString();
+   
+        statBar.UpdateBars();
     }
 
 }
