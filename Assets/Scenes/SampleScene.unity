@@ -3516,10 +3516,10 @@ MonoBehaviour:
   cellsGrid: {fileID: 980536717}
   c: 10
   r: 10
-  exposedDuration: 0
-  infectiveDuration: 0
-  variationCoefficient: 0
-  contactRate: 0
+  exposedDuration: 2
+  infectiveDuration: 4
+  variationCoefficient: 0.5
+  contactRate: 0.5
   mortalityRate: 0
   deathsPerStep: 0
   birthsPerStep: 0
