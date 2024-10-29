@@ -30,12 +30,12 @@ public class SimulationManager : MonoBehaviour
 
     [Header("Input data")]
 
-    public uint exposedDuration; // a
-    public uint infectiveDuration; // b
+    public uint exposedDuration = 2; // a
+    public uint infectiveDuration = 4; // b
 
-    public float variationCoefficient; // c_v
+    public float variationCoefficient = 0.5f; // c_v
 
-    public float contactRate; // beta
+    public float contactRate = 0.5f; // beta
 
     public float mortalityRate; // u_vm
     public float deathsPerStep; // u_d
@@ -53,13 +53,19 @@ public class SimulationManager : MonoBehaviour
         for (int i = 1; i < cellsGrid.transform.childCount; i++)
         {
             cells.Add(cellsGrid.transform.GetChild(i).GetComponent<Cell>());
-            cells[i - 1].j = (uint)(i - 1) % c;
-            cells[i - 1].i = (uint)(i - 1 - cells[i - 1].j) / c;
+            cells[i - 1].col = (uint)(i - 1) % c;
+            cells[i - 1].row = (uint)(i - 1 - cells[i - 1].col) / c;
         }
         
         // Initialize cells and diagrams
         foreach (Cell cell in cells)
         {
+            cell.InitializeLists(exposedDuration, infectiveDuration);
+
+            // If there are any infected/exposed, we are assuming they have been only one day in that state.
+            cell.exposed[1] = cell.population.E;
+            cell.infected[1] = cell.population.I;
+
             cell.UpdateDiagram();
         }
 
@@ -76,7 +82,7 @@ public class SimulationManager : MonoBehaviour
     public void Step()
     {
         // Update cells and calculate
-
+        Debug.Log("Cell(0, 0) infection probability: "+ cells[0].InfectionProbability(contactRate, variationCoefficient).ToString());
 
         // Update diagrams
         foreach (Cell cell in cells)
