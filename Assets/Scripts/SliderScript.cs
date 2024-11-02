@@ -51,9 +51,9 @@ public class SliderScript : MonoBehaviour
         defaultValues[Parameter.u_vm] = 0.3f;
         defaultValues[Parameter.u_d] = 1f;
         defaultValues[Parameter.u_b] = 1f;
-        defaultValues[Parameter.phi_h] = 1f;
-        defaultValues[Parameter.phi_s] = 1f;
-        defaultValues[Parameter.phi_c] = 1f;
+        defaultValues[Parameter.phi_h] = 0.055f;
+        defaultValues[Parameter.phi_s] = 0.013f;
+        defaultValues[Parameter.phi_c] = 0.23f;
     }
 
     private void Start()

@@ -1,7 +1,9 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static Cell;
 
 public class SimulationManager : MonoBehaviour
 {
@@ -41,10 +43,11 @@ public class SimulationManager : MonoBehaviour
     public float deathsPerStep; // u_d
     public float birthsPerStep; // u_b
 
-    public float healthyCommuting; // phi_h
-    public float infectedCommuting; // phi_s
-    public float outsideCommuting; // phi_c
+    public float healthyCommuting = 0.055f; // phi_h
+    public float infectedCommuting = 0.013f; // phi_s
+    public float outsideCommuting = 0.23f; // phi_c
 
+    public uint outsideCommutingTarget = 75000; // Minimum population for travelers commuting outside of neighborhood
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -82,7 +85,22 @@ public class SimulationManager : MonoBehaviour
     public void Step()
     {
         // Update cells and calculate
-        Debug.Log("Cell(0, 0) infection probability: "+ cells[0].InfectionProbability(contactRate, variationCoefficient).ToString());
+        foreach (Cell cell in cells)
+        {
+            //CommutingSimulation((int)(cell.row * r + cell.col));
+            
+            cell.InfectionProbability(contactRate, variationCoefficient);
+
+            // Infection()
+
+            // CommutersInfection()
+
+            // ReturnCommuters()
+
+            // UpdateStates()
+
+        }
+
 
         // Update diagrams
         foreach (Cell cell in cells)
@@ -117,5 +135,135 @@ public class SimulationManager : MonoBehaviour
         }
 
         population = p;
+    }
+
+    void CommutingSimulation(int index)
+    {
+        Cell cell = cells[index];
+
+        uint healthyCommuters = (uint)(cell.population.S * healthyCommuting);
+        uint healthyCommutersOutside = (uint)(healthyCommuters * outsideCommuting);
+        uint healthyCommutersNeighborhood = healthyCommuters - healthyCommutersOutside;
+
+        uint infectedCommuters = (uint)(cell.population.I * infectedCommuting);
+        uint infectedCommutersOutside = (uint)(infectedCommuters * outsideCommuting);
+        uint infectedCommutersNeighborhood = infectedCommuters - infectedCommutersOutside;
+
+
+        // Possibly move the destinations initialization to start
+        List<int> neighborhoodDestinations = new List<int>();
+
+        // Finding the destinations in the neighborhood
+        for (int i = -1; i <= 1 ; i++) 
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                int destRow = (int)cell.row + i;
+                int destCol = (int)cell.col + j;
+
+                if (destRow < 0 || destRow >= r ||  destCol < 0 || destCol >= c || (destRow == 0 && destCol == 0))
+                {
+                    continue;
+                }
+
+                if (cells[destRow * (int)r + destCol].population.N == 0)
+                {
+                    continue;
+                }
+
+                neighborhoodDestinations.Add(destRow * (int)r + destCol);
+            }
+        }
+
+
+        // Finding the destination outside of the neighborhood
+        int range = 2;
+        int outsideDestination = -1;
+
+        while (outsideDestination == -1)
+        {
+            int maxRow = (int)cell.row - range;
+            int maxCol = (int)cell.col - range;
+
+            for (int i = -range; i <= range; i++)
+            {
+                for (int j = -range; j <= range; j++)
+                {
+                    // Skipping iterations when the target is not on the edges
+                    if (Math.Abs(i) != range && Math.Abs(j) != range)
+                    {
+                        continue;
+                    }
+
+                    int destRow = (int)cell.row + i;
+                    int destCol = (int)cell.col + j;
+
+                    if (destRow < 0 || destRow >= r || destCol < 0 || destCol >= c)
+                    {
+                        continue;
+                    }
+
+                    if (cells[destRow * (int)r + destCol].population.N == 0)
+                    {
+                        continue;
+                    }
+
+                    if (outsideDestination == -1)
+                    {
+                        maxRow = destRow;
+                        maxCol = destCol;
+                    }
+
+                    if (cells[destRow * (int)r + destCol].population.N >= outsideCommutingTarget && cells[destRow * (int)r + destCol].population.N >= cells[maxRow * (int)r + maxCol].population.N)
+                    {
+                        maxRow = destRow;
+                        maxCol = destCol;
+                        outsideDestination = maxRow * (int)r + maxCol;
+                    }
+                }
+            }
+
+            range++;
+        }
+
+        // Finding commuters count for neighborhood destination
+        int[] healthyCommutersDestinations = new int[neighborhoodDestinations.Count];
+
+        for (int i = 0; i < healthyCommutersNeighborhood; i++)
+        {
+            int destination = UnityEngine.Random.Range(0, neighborhoodDestinations.Count);
+            healthyCommutersDestinations[destination]++;
+        }
+
+        int[] infectedCommutersDestinations = new int[neighborhoodDestinations.Count];
+
+        for (int i = 0; i < infectedCommutersNeighborhood; i++)
+        {
+            int destination = UnityEngine.Random.Range(0, neighborhoodDestinations.Count);
+            infectedCommutersDestinations[destination]++;
+        }
+
+        // Neighborhood commuters
+        for (int i = 0; i < neighborhoodDestinations.Count; i++)
+        {
+            cells[neighborhoodDestinations[i]].incomingTravelers.I += (uint)infectedCommutersDestinations[i];
+            IncomingTravelers travelersNeighborhood;
+            travelersNeighborhood.row = cell.row;
+            travelersNeighborhood.col = cell.col;
+            travelersNeighborhood.healthyTravelers = (uint)healthyCommutersDestinations[i];
+            cells[neighborhoodDestinations[i]].healthyIncomingTravelers.Add(travelersNeighborhood);
+        }
+
+        // Outside travels
+        cells[outsideDestination].incomingTravelers.I += infectedCommutersOutside;
+        IncomingTravelers travelers;
+        travelers.row = cell.row;
+        travelers.col = cell.col;
+        travelers.healthyTravelers = healthyCommutersOutside;
+        cells[outsideDestination].healthyIncomingTravelers.Add(travelers);
+
+        // Updating outgoing travelers
+        cell.outgoingTravelers.I += infectedCommuters;
+        cell.outgoingTravelers.S += healthyCommuters;
     }
 }

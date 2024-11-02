@@ -5,11 +5,22 @@ using static SimulationManager;
 
 public class Cell : MonoBehaviour
 {
+    // Healthy travelers are kept in sepearate list with their destination to calculate infection probabiliy correctly
+    public struct IncomingTravelers
+    {
+        public uint row;
+        public uint col;
+        public uint healthyTravelers;
+    }
+    
     public Population population;
 
     // If needed change to list of travelers with specified state, origin/destination
     public Population incomingTravelers;
+    public List<IncomingTravelers> healthyIncomingTravelers = new List<IncomingTravelers>(); 
     public Population outgoingTravelers;
+
+    public float infectionProbability = 0.0f;
 
     public CellDiagram diagram;
 
@@ -86,8 +97,8 @@ public class Cell : MonoBehaviour
         return GaussianRandomNumber(mean, variationCoefficient);
     }
 
-    public float InfectionProbability(float contactRate, float variationCoefficient)
+    public void InfectionProbability(float contactRate, float variationCoefficient)
     {
-        return Mathf.Clamp(InfectionStrength(contactRate, variationCoefficient), 0, 1);
+        infectionProbability = Mathf.Clamp(InfectionStrength(contactRate, variationCoefficient), 0, 1);
     }
 }
