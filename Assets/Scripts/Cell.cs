@@ -103,6 +103,7 @@ public class Cell : MonoBehaviour
 
         float bottom = (float)population.N + (float)incomingTravelers.N - (float)outgoingTravelers.N;
 
+        float test = Mathf.Exp(-contactRate * top / bottom);
         mean = 1 - Mathf.Exp(-contactRate * top / bottom);
 
         return GaussianRandomNumber(mean, variationCoefficient);

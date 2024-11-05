@@ -46,7 +46,7 @@ public class SliderScript : MonoBehaviour
         // Define default values for each parameter
         defaultValues[Parameter.a] = 2;
         defaultValues[Parameter.b] = 4;
-        defaultValues[Parameter.c_v] = 0.5f;
+        defaultValues[Parameter.c_v] = 0.05f;
         defaultValues[Parameter.beta] = 0.5f;
         defaultValues[Parameter.u_vm] = 0.3f;
         defaultValues[Parameter.u_d] = 1f;

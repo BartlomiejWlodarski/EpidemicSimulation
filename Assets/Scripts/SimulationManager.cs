@@ -94,12 +94,12 @@ public class SimulationManager : MonoBehaviour
         {
             cell.InfectionProbability(contactRate, variationCoefficient);
 
-            // Infection
+            Infection(cell);
         }
 
         foreach (Cell cell in cells)
         {
-            // CommutersInfection()
+            CommutersInfection(cell);
             ReturnCommuters(cell);
         }
 
@@ -358,5 +358,35 @@ public class SimulationManager : MonoBehaviour
         // TODO: Add infect travelers
 
         cell.healthyIncomingTravelers.Clear();
+    }
+
+    void Infection(Cell cell) 
+    {
+        for (int i = 0; i < cell.population.S - cell.outgoingTravelers.S; i++)
+        {
+            if (UnityEngine.Random.Range(0.0f, 1.0f) <= cell.infectionProbability)
+            {
+                cell.population.S--;
+                cell.population.E++;
+                cell.exposed[0]++;
+            }
+        }
+    }
+
+    void CommutersInfection(Cell cell)
+    {
+        for (int i = 0; i < cell.healthyIncomingTravelers.Count; i++)
+        {
+            Cell destination = cells[(int)(cell.healthyIncomingTravelers[i].row * r + cell.healthyIncomingTravelers[i].col)];
+            for (int j = 0; j < cell.healthyIncomingTravelers[i].susceptibleTravelers; j++)
+            {
+                if (UnityEngine.Random.Range(0.0f, 1.0f) <= cell.infectionProbability)
+                {
+                    destination.population.S--;
+                    destination.population.E++;
+                    destination.exposed[0]++;
+                }
+            }
+        }
     }
 }
