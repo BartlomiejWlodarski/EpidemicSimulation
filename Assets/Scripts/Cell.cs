@@ -6,11 +6,12 @@ using static SimulationManager;
 public class Cell : MonoBehaviour
 {
     // Healthy travelers are kept in sepearate list with their destination to calculate infection probabiliy correctly
+    [System.Serializable]
     public struct IncomingTravelers
     {
         public uint row;
         public uint col;
-        public uint healthyTravelers;
+        public uint susceptibleTravelers;
     }
     
     public Population population;
@@ -88,9 +89,19 @@ public class Cell : MonoBehaviour
             top += infected[i];
         }
 
-        top += incomingTravelers.I - outgoingTravelers.I;
+        uint susceptibleIncomingCommuters = 0;
 
-        float bottom = population.N + incomingTravelers.N - outgoingTravelers.N;
+        for (int i = 0; i < healthyIncomingTravelers.Count; i++)
+        {
+            susceptibleIncomingCommuters += healthyIncomingTravelers[i].susceptibleTravelers;
+        }
+
+        top += (float)incomingTravelers.I - (float)outgoingTravelers.I;
+
+        incomingTravelers.N = incomingTravelers.I + incomingTravelers.R + incomingTravelers.E + susceptibleIncomingCommuters;
+        outgoingTravelers.N = outgoingTravelers.I + outgoingTravelers.R + outgoingTravelers.E + outgoingTravelers.S;
+
+        float bottom = (float)population.N + (float)incomingTravelers.N - (float)outgoingTravelers.N;
 
         mean = 1 - Mathf.Exp(-contactRate * top / bottom);
 

@@ -3663,6 +3663,7 @@ MonoBehaviour:
   healthyCommuting: 0
   infectedCommuting: 0
   outsideCommuting: 0
+  outsideCommutingTarget: 75000
 --- !u!4 &272521203
 Transform:
   m_ObjectHideFlags: 0

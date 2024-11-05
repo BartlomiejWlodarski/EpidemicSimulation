@@ -87,20 +87,26 @@ public class SimulationManager : MonoBehaviour
         // Update cells and calculate
         foreach (Cell cell in cells)
         {
-            //CommutingSimulation((int)(cell.row * r + cell.col));
-            
-            cell.InfectionProbability(contactRate, variationCoefficient);
-
-            // Infection()
-
-            // CommutersInfection()
-
-            // ReturnCommuters()
-
-            // UpdateStates()
-
+            CommutingSimulation(cell);
         }
 
+        foreach (Cell cell in cells)
+        {
+            cell.InfectionProbability(contactRate, variationCoefficient);
+
+            // Infection
+        }
+
+        foreach (Cell cell in cells)
+        {
+            // CommutersInfection()
+            ReturnCommuters(cell);
+        }
+
+        //foreach (Cell cell in cells)
+        {
+            // UpdateStates()
+        }
 
         // Update diagrams
         foreach (Cell cell in cells)
@@ -137,18 +143,69 @@ public class SimulationManager : MonoBehaviour
         population = p;
     }
 
-    void CommutingSimulation(int index)
+    void CommutingSimulation(Cell cell)
     {
-        Cell cell = cells[index];
-
-        uint healthyCommuters = (uint)(cell.population.S * healthyCommuting);
+        uint healthyCommuters = (uint)((cell.population.S + cell.population.R) * healthyCommuting);
         uint healthyCommutersOutside = (uint)(healthyCommuters * outsideCommuting);
         uint healthyCommutersNeighborhood = healthyCommuters - healthyCommutersOutside;
 
-        uint infectedCommuters = (uint)(cell.population.I * infectedCommuting);
-        uint infectedCommutersOutside = (uint)(infectedCommuters * outsideCommuting);
-        uint infectedCommutersNeighborhood = infectedCommuters - infectedCommutersOutside;
+        uint nonHealthyCommuters = (uint)((cell.population.I + cell.population.E) * infectedCommuting);
+        uint nonHealthyCommutersOutside = (uint)(nonHealthyCommuters * outsideCommuting);
+        uint nonHealthyCommutersNeighborhood = nonHealthyCommuters - nonHealthyCommutersOutside;
 
+        uint recoveredCommutersOutside = 0;
+        uint recoveredCommutersNeighborhood = 0;
+
+        uint susceptibleCommutersOutside = 0;
+        uint susceptibleCommutersNeighborhood = 0;
+
+        uint infectedCommutersOutside = 0;
+        uint infectedCommutersNeighborhood = 0;
+
+        uint exposedCommutersOutside = 0;
+        uint exposedCommutersNeighborhood = 0;
+
+        // Calculating commuters for each type and state
+
+        for (int i = 0; i < healthyCommutersOutside; i++)
+        {
+            if (UnityEngine.Random.Range(0.0f, 1.0f) < (float)cell.population.S / (float)(cell.population.S + cell.population.R))
+            {
+                susceptibleCommutersOutside++;
+            }
+        }
+
+        recoveredCommutersOutside = healthyCommutersOutside - susceptibleCommutersOutside;
+
+        for (int i = 0; i < healthyCommutersNeighborhood; i++)
+        {
+            if (UnityEngine.Random.Range(0.0f, 1.0f) < (float)cell.population.S / (float)(cell.population.S + cell.population.R))
+            {
+                susceptibleCommutersNeighborhood++;
+            }
+        }
+
+        recoveredCommutersNeighborhood = healthyCommutersNeighborhood - susceptibleCommutersNeighborhood;
+
+        for (int i = 0; i < nonHealthyCommutersOutside; i++)
+        {
+            if (UnityEngine.Random.Range(0.0f, 1.0f) < (float)cell.population.I / (float)(cell.population.I + cell.population.E))
+            {
+                infectedCommutersOutside++;
+            }
+        }
+
+        exposedCommutersOutside = nonHealthyCommutersOutside - infectedCommutersOutside;
+
+        for (int i = 0; i < nonHealthyCommutersNeighborhood; i++)
+        {
+            if (UnityEngine.Random.Range(0.0f, 1.0f) < (float)cell.population.I / (float)(cell.population.I + cell.population.E))
+            {
+                infectedCommutersNeighborhood++;
+            }
+        }
+
+        exposedCommutersNeighborhood = nonHealthyCommutersNeighborhood - infectedCommutersNeighborhood;
 
         // Possibly move the destinations initialization to start
         List<int> neighborhoodDestinations = new List<int>();
@@ -161,7 +218,7 @@ public class SimulationManager : MonoBehaviour
                 int destRow = (int)cell.row + i;
                 int destCol = (int)cell.col + j;
 
-                if (destRow < 0 || destRow >= r ||  destCol < 0 || destCol >= c || (destRow == 0 && destCol == 0))
+                if (destRow < 0 || destRow >= r ||  destCol < 0 || destCol >= c || (destRow == cell.row && destCol == cell.col))
                 {
                     continue;
                 }
@@ -227,43 +284,79 @@ public class SimulationManager : MonoBehaviour
         }
 
         // Finding commuters count for neighborhood destination
-        int[] healthyCommutersDestinations = new int[neighborhoodDestinations.Count];
+        Population[] commutersDestinations = new Population[neighborhoodDestinations.Count];
 
-        for (int i = 0; i < healthyCommutersNeighborhood; i++)
+        for (int i = 0; i < susceptibleCommutersNeighborhood; i++)
         {
             int destination = UnityEngine.Random.Range(0, neighborhoodDestinations.Count);
-            healthyCommutersDestinations[destination]++;
+            commutersDestinations[destination].S++;
         }
 
-        int[] infectedCommutersDestinations = new int[neighborhoodDestinations.Count];
+        for (int i = 0; i < recoveredCommutersNeighborhood; i++)
+        {
+            int destination = UnityEngine.Random.Range(0, neighborhoodDestinations.Count);
+            commutersDestinations[destination].R++;
+        }
 
         for (int i = 0; i < infectedCommutersNeighborhood; i++)
         {
             int destination = UnityEngine.Random.Range(0, neighborhoodDestinations.Count);
-            infectedCommutersDestinations[destination]++;
+            commutersDestinations[destination].I++;
+        }
+
+        for (int i = 0; i < exposedCommutersNeighborhood; i++)
+        {
+            int destination = UnityEngine.Random.Range(0, neighborhoodDestinations.Count);
+            commutersDestinations[destination].E++;
         }
 
         // Neighborhood commuters
         for (int i = 0; i < neighborhoodDestinations.Count; i++)
         {
-            cells[neighborhoodDestinations[i]].incomingTravelers.I += (uint)infectedCommutersDestinations[i];
+            cells[neighborhoodDestinations[i]].incomingTravelers.I += (uint)commutersDestinations[i].I;
+            cells[neighborhoodDestinations[i]].incomingTravelers.E += (uint)commutersDestinations[i].E;
+            cells[neighborhoodDestinations[i]].incomingTravelers.R += (uint)commutersDestinations[i].R;
+
             IncomingTravelers travelersNeighborhood;
             travelersNeighborhood.row = cell.row;
             travelersNeighborhood.col = cell.col;
-            travelersNeighborhood.healthyTravelers = (uint)healthyCommutersDestinations[i];
+            travelersNeighborhood.susceptibleTravelers = (uint)commutersDestinations[i].S;
             cells[neighborhoodDestinations[i]].healthyIncomingTravelers.Add(travelersNeighborhood);
         }
 
-        // Outside travels
+        // Outside commuters
         cells[outsideDestination].incomingTravelers.I += infectedCommutersOutside;
+        cells[outsideDestination].incomingTravelers.E += exposedCommutersOutside;
+        cells[outsideDestination].incomingTravelers.R += recoveredCommutersOutside;
+
         IncomingTravelers travelers;
         travelers.row = cell.row;
         travelers.col = cell.col;
-        travelers.healthyTravelers = healthyCommutersOutside;
+        travelers.susceptibleTravelers = susceptibleCommutersOutside;
         cells[outsideDestination].healthyIncomingTravelers.Add(travelers);
 
         // Updating outgoing travelers
-        cell.outgoingTravelers.I += infectedCommuters;
-        cell.outgoingTravelers.S += healthyCommuters;
+        cell.outgoingTravelers.I += infectedCommutersNeighborhood + infectedCommutersOutside;
+        cell.outgoingTravelers.S += susceptibleCommutersNeighborhood + susceptibleCommutersOutside;
+        cell.outgoingTravelers.E += exposedCommutersNeighborhood + exposedCommutersOutside;
+        cell.outgoingTravelers.R += recoveredCommutersNeighborhood + recoveredCommutersOutside;
+    }
+
+    void ReturnCommuters(Cell cell)
+    {
+        cell.outgoingTravelers.S = 0;
+        cell.outgoingTravelers.R = 0;
+        cell.outgoingTravelers.I = 0;
+        cell.outgoingTravelers.E = 0;
+        cell.outgoingTravelers.N = 0;
+        
+        cell.incomingTravelers.R = 0;
+        cell.incomingTravelers.I = 0;
+        cell.incomingTravelers.E = 0;
+        cell.incomingTravelers.N = 0;
+
+        // TODO: Add infect travelers
+
+        cell.healthyIncomingTravelers.Clear();
     }
 }
