@@ -21152,7 +21152,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5243564092040501252, guid: ebad773bb34db0a44b7939ef1d2bea47, type: 3}
       propertyPath: population.I
-      value: 0
+      value: 60000
       objectReference: {fileID: 0}
     - target: {fileID: 5243564092040501252, guid: ebad773bb34db0a44b7939ef1d2bea47, type: 3}
       propertyPath: population.N
@@ -21164,7 +21164,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5243564092040501252, guid: ebad773bb34db0a44b7939ef1d2bea47, type: 3}
       propertyPath: population.S
-      value: 70000
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 8573071884874909613, guid: ebad773bb34db0a44b7939ef1d2bea47, type: 3}
       propertyPath: m_Name

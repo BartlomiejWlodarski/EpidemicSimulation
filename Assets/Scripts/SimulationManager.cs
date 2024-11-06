@@ -367,6 +367,11 @@ public class SimulationManager : MonoBehaviour
 
     void Infection(Cell cell) 
     {
+        if (cell.infectionProbability == 0.0f)
+        {
+            return;
+        }
+
         for (int i = 0; i < cell.population.S - cell.outgoingTravelers.S; i++)
         {
             if (UnityEngine.Random.Range(0.0f, 1.0f) <= cell.infectionProbability)
@@ -380,6 +385,11 @@ public class SimulationManager : MonoBehaviour
 
     void CommutersInfection(Cell cell)
     {
+        if (cell.infectionProbability == 0.0f)
+        {
+            return;
+        }
+
         for (int i = 0; i < cell.healthyIncomingTravelers.Count; i++)
         {
             Cell destination = cells[(int)(cell.healthyIncomingTravelers[i].row * r + cell.healthyIncomingTravelers[i].col)];

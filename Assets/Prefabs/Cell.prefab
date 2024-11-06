@@ -124,12 +124,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   population:
     N: 100000
-    S: 20000
-    E: 30000
-    I: 30000
-    R: 10000
-    D: 10000
+    S: 100000
+    E: 0
+    I: 0
+    R: 0
+    D: 0
+  incomingTravelers:
+    N: 0
+    S: 0
+    E: 0
+    I: 0
+    R: 0
+    D: 0
+  healthyIncomingTravelers: []
+  outgoingTravelers:
+    N: 0
+    S: 0
+    E: 0
+    I: 0
+    R: 0
+    D: 0
+  infectionProbability: 0
   diagram: {fileID: 8396165482493935037}
+  row: 0
+  col: 0
+  bDiff: 0
+  infected: 
+  exposed: 
 --- !u!1001 &5367039220707929457
 PrefabInstance:
   m_ObjectHideFlags: 0
