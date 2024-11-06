@@ -84,6 +84,11 @@ public class SimulationManager : MonoBehaviour
 
     public void Step()
     {
+        foreach (Cell cell in cells)
+        {
+            //CalculateNaturalBirthsAndDeaths(cell);
+        }
+
         // Update cells and calculate
         foreach (Cell cell in cells)
         {
@@ -389,4 +394,42 @@ public class SimulationManager : MonoBehaviour
             }
         }
     }
+
+    /*void CalculateNaturalBirthsAndDeaths(Cell cell)
+    {
+        float u_b = 0.0000277;
+        float u_d = 0.0000270;
+        float u_delta = u_b - u_d;
+
+        if (u_delta >= 0.0f)
+        {
+            int birthsAndDeaths = (uint)(cell.population.N * u_delta);
+            cell.bDiff = birthsAndDeaths;
+            cell.population.N += birthsAndDeaths;
+            cell.population.S += birthsAndDeaths;
+        }
+        else
+        {
+            cell.bDiff = 0;
+            float popChange = ((float)cell.population.S * u_delta);
+            cell.population.S += popChange;
+            cell.population.N += popChange;
+            cell.bDiff += popChange;
+
+            popChange = ((float)cell.population.E * u_delta);
+            cell.population.E += popChange;
+            cell.population.N += popChange;
+            cell.bDiff += popChange;
+
+            popChange = ((float)cell.population.I * u_delta);
+            cell.population.I += popChange;
+            cell.population.N += popChange;
+            cell.bDiff += popChange;
+
+            popChange = ((float)cell.population.R * u_delta);
+            cell.population.R += ((float)cell.population.R * u_delta);
+            cell.population.N += popChange;
+            cell.bDiff += popChange;
+        }
+    }*/
 }
