@@ -108,9 +108,9 @@ public class SimulationManager : MonoBehaviour
             ReturnCommuters(cell);
         }
 
-        //foreach (Cell cell in cells)
+        foreach (Cell cell in cells)
         {
-            // UpdateStates()
+            UpdateStates(cell);
         }
 
         // Update diagrams
@@ -360,86 +360,87 @@ public class SimulationManager : MonoBehaviour
         cell.incomingTravelers.E = 0;
         cell.incomingTravelers.N = 0;
 
-        // TODO: Add infect travelers
-
         cell.healthyIncomingTravelers.Clear();
     }
 
     void Infection(Cell cell) 
     {
-        if (cell.infectionProbability == 0.0f)
-        {
-            return;
-        }
+        uint effectedPopulation = cell.population.S - cell.outgoingTravelers.S;
+        uint newExposed = (uint)((float)effectedPopulation * cell.infectionProbability);
+        uint newSusceptible = effectedPopulation - newExposed;
 
-        for (int i = 0; i < cell.population.S - cell.outgoingTravelers.S; i++)
-        {
-            if (UnityEngine.Random.Range(0.0f, 1.0f) <= cell.infectionProbability)
-            {
-                cell.population.S--;
-                cell.population.E++;
-                cell.exposed[0]++;
-            }
-        }
+        cell.population.S = newSusceptible;
+        cell.population.E = newExposed;
+        cell.exposed[0] = newExposed;
     }
 
     void CommutersInfection(Cell cell)
     {
-        if (cell.infectionProbability == 0.0f)
-        {
-            return;
-        }
-
         for (int i = 0; i < cell.healthyIncomingTravelers.Count; i++)
         {
             Cell destination = cells[(int)(cell.healthyIncomingTravelers[i].row * r + cell.healthyIncomingTravelers[i].col)];
-            for (int j = 0; j < cell.healthyIncomingTravelers[i].susceptibleTravelers; j++)
-            {
-                if (UnityEngine.Random.Range(0.0f, 1.0f) <= cell.infectionProbability)
-                {
-                    destination.population.S--;
-                    destination.population.E++;
-                    destination.exposed[0]++;
-                }
-            }
+
+            uint effectedPopulation = cell.healthyIncomingTravelers[i].susceptibleTravelers;
+            uint newExposed = (uint)((float)effectedPopulation * cell.infectionProbability);
+            uint newSusceptible = effectedPopulation - newExposed;
+
+            destination.population.S += newSusceptible;
+            destination.population.E += newExposed;
+            destination.exposed[0] += newExposed;
         }
     }
 
-    /*void CalculateNaturalBirthsAndDeaths(Cell cell)
+    void UpdateStates(Cell cell)
     {
-        float u_b = 0.0000277;
-        float u_d = 0.0000270;
-        float u_delta = u_b - u_d;
+        float multiplier = 1 + birthsPerStep - deathsPerStep;
+        float infectedMultiplier = multiplier - mortalityRate;
+        uint newDeaths = 0;
 
-        if (u_delta >= 0.0f)
+        // Susceptible
+        cell.population.S = (uint)((float)cell.population.S * multiplier);
+
+
+        // Exposed
+        cell.exposed[0] = (uint)((float)cell.exposed[0] * multiplier);
+        cell.population.E = cell.exposed[0];
+
+        newDeaths += (uint)((multiplier - infectedMultiplier) * (float)cell.exposed[cell.exposed.Count - 1]);
+        uint newInfected = (uint)(infectedMultiplier * (float)cell.exposed[cell.exposed.Count - 1]);
+
+        for (int i = cell.exposed.Count - 2; i > 0; i--)
         {
-            int birthsAndDeaths = (uint)(cell.population.N * u_delta);
-            cell.bDiff = birthsAndDeaths;
-            cell.population.N += birthsAndDeaths;
-            cell.population.S += birthsAndDeaths;
+            newDeaths += (uint)((multiplier - infectedMultiplier) * (float)cell.exposed[i]);
+            cell.exposed[i+1] = (uint)(infectedMultiplier * (float)cell.exposed[i]);
+            cell.population.E += cell.exposed[i+1];
         }
-        else
+
+        cell.exposed[1] = cell.exposed[0];
+
+
+        // Infected
+        cell.infected[0] = newInfected;
+        cell.population.I = cell.infected[0];
+
+        newDeaths += (uint)((multiplier - infectedMultiplier) * (float)cell.infected[cell.infected.Count - 1]);
+        uint newRecovered = (uint)(infectedMultiplier * (float)cell.infected[cell.infected.Count - 1]);
+
+        for (int i = cell.infected.Count - 2; i > 0; i--)
         {
-            cell.bDiff = 0;
-            float popChange = ((float)cell.population.S * u_delta);
-            cell.population.S += popChange;
-            cell.population.N += popChange;
-            cell.bDiff += popChange;
-
-            popChange = ((float)cell.population.E * u_delta);
-            cell.population.E += popChange;
-            cell.population.N += popChange;
-            cell.bDiff += popChange;
-
-            popChange = ((float)cell.population.I * u_delta);
-            cell.population.I += popChange;
-            cell.population.N += popChange;
-            cell.bDiff += popChange;
-
-            popChange = ((float)cell.population.R * u_delta);
-            cell.population.R += ((float)cell.population.R * u_delta);
-            cell.population.N += popChange;
-            cell.bDiff += popChange;
+            newDeaths += (uint)((multiplier - infectedMultiplier) * (float)cell.infected[i]);
+            cell.infected[i + 1] = (uint)(infectedMultiplier * (float)cell.infected[i]);
+            cell.population.I += cell.infected[i + 1];
         }
-    }*/
+
+        cell.infected[1] = cell.infected[0];
+
+
+        // Recovered
+        cell.population.R = (uint)((float)cell.population.R * multiplier) + newRecovered;
+
+        cell.population.D += newDeaths;
+
+        cell.population.N = cell.population.S + cell.population.I + cell.population.E + cell.population.R;
+    }
+
+
 }

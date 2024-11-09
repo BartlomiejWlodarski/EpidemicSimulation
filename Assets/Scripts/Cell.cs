@@ -29,8 +29,6 @@ public class Cell : MonoBehaviour
     public uint row;
     public uint col;
 
-    public int bDiff;
-
     [Header("States durations list")]
     // Lists storing how many people are in that state for a given number of days.
     // For example infected[2] denotes how many people have been infected for two days.  

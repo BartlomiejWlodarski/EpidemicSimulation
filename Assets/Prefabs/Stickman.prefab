@@ -97,9 +97,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92788d3ab479d7f40b6a7d6401f071fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  n: 100000
   r: 0.1
   s: 0.2
   e: 0.3
   i: 0.3
   d: 0.1
+  baseHeight: 0.81
+  h: 1
   material: {fileID: 2100000, guid: 5658ecac712707f499d6a732060482db, type: 2}
+  mR: {fileID: 0}
