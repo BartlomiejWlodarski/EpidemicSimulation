@@ -79,16 +79,11 @@ public class SimulationManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //Step();
     }
 
     public void Step()
     {
-        foreach (Cell cell in cells)
-        {
-            //CalculateNaturalBirthsAndDeaths(cell);
-        }
-
         // Update cells and calculate
         foreach (Cell cell in cells)
         {
@@ -149,7 +144,7 @@ public class SimulationManager : MonoBehaviour
     }
 
     void CommutingSimulation(Cell cell)
-    {
+    {     
         uint healthyCommuters = (uint)((cell.population.S + cell.population.R) * healthyCommuting);
         uint healthyCommutersOutside = (uint)(healthyCommuters * outsideCommuting);
         uint healthyCommutersNeighborhood = healthyCommuters - healthyCommutersOutside;
@@ -251,6 +246,20 @@ public class SimulationManager : MonoBehaviour
             {
                 for (int j = -range; j <= range; j++)
                 {
+                    if (range > c - (Math.Min(cell.col, cell.row)) - 1)
+                    {
+                        outsideDestination = -2;
+                        j = range + 1;
+                        i = range + 1;
+
+                        susceptibleCommutersOutside = 0;
+                        infectedCommutersOutside = 0;
+                        exposedCommutersOutside = 0;
+                        recoveredCommutersOutside = 0;
+
+                        continue;
+                    }
+
                     // Skipping iterations when the target is not on the edges
                     if (Math.Abs(i) != range && Math.Abs(j) != range)
                     {
@@ -330,15 +339,17 @@ public class SimulationManager : MonoBehaviour
         }
 
         // Outside commuters
-        cells[outsideDestination].incomingTravelers.I += infectedCommutersOutside;
-        cells[outsideDestination].incomingTravelers.E += exposedCommutersOutside;
-        cells[outsideDestination].incomingTravelers.R += recoveredCommutersOutside;
-
-        IncomingTravelers travelers;
-        travelers.row = cell.row;
-        travelers.col = cell.col;
-        travelers.susceptibleTravelers = susceptibleCommutersOutside;
-        cells[outsideDestination].healthyIncomingTravelers.Add(travelers);
+        if (outsideDestination != -2)
+        {
+            cells[outsideDestination].incomingTravelers.I += infectedCommutersOutside;
+            cells[outsideDestination].incomingTravelers.E += exposedCommutersOutside;
+            cells[outsideDestination].incomingTravelers.R += recoveredCommutersOutside;
+            IncomingTravelers travelers;
+            travelers.row = cell.row;
+            travelers.col = cell.col;
+            travelers.susceptibleTravelers = susceptibleCommutersOutside;
+            cells[outsideDestination].healthyIncomingTravelers.Add(travelers);
+        }
 
         // Updating outgoing travelers
         cell.outgoingTravelers.I += infectedCommutersNeighborhood + infectedCommutersOutside;
