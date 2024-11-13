@@ -11,7 +11,7 @@ Shader "Custom/SEIRdiagram"
       [Header(Susceptible)]_SusceptibleColor ("Susceptible color", Color) = (0, 1, 0, 1)
       _SusceptiblePercent ("Susceptible Percent", Float) = 0.8
 
-      [Header(Exposed)]_ExposedColor ("Exposed color", Color) = (1, 1, 0, 0)
+      [Header(Exposed)]_ExposedColor ("Exposed color", Color) = (1, 0.5, 0, 0)
       _ExposedPercent ("Exposed Percent", Float) = 0
 
       [Header(Infected)]_InfectedColor ("Infected color", Color) = (1, 0, 0, 1)

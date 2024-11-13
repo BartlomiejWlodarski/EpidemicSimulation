@@ -1613,7 +1613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.24705882, b: 0.20392157, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2229,10 +2229,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 556828948}
   m_HandleRect: {fileID: 968922966}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: 0.1
+  m_MaxValue: 0.9
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -3342,10 +3342,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 565055453}
   m_HandleRect: {fileID: 618551337}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: 0.01
+  m_MaxValue: 0.1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.01
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -3768,10 +3768,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1990167205}
   m_HandleRect: {fileID: 502981333}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: 0.00002
+  m_MaxValue: 0.0000999
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.000027
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -3801,7 +3801,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 279433968}
   attachedText: {fileID: 1689349889}
-  par: 6
+  par: 5
 --- !u!1 &280569459
 GameObject:
   m_ObjectHideFlags: 0
@@ -4856,7 +4856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.11764706, g: 0.15294118, b: 0.18039216, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7888,10 +7888,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 639701690}
   m_HandleRect: {fileID: 1268895838}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: 0.00002
+  m_MaxValue: 0.0000999
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.0000277
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -7921,7 +7921,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 560453858}
   attachedText: {fileID: 1393763269}
-  par: 5
+  par: 6
 --- !u!1 &565055452
 GameObject:
   m_ObjectHideFlags: 0
@@ -12447,7 +12447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.7529412, b: 0.28235295, a: 1}
+  m_Color: {r: 1, g: 0.5, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -12943,8 +12943,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 384519086}
   m_HandleRect: {fileID: 1706268247}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 0.1
+  m_MinValue: 0.001
+  m_MaxValue: 0.5
   m_WholeNumbers: 0
   m_Value: 0.03
   m_OnValueChanged:
@@ -14992,10 +14992,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 659294989}
   m_HandleRect: {fileID: 1641603238}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: 0.001
+  m_MaxValue: 0.1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.001
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -21500,7 +21500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.043137256, g: 0.9098039, b: 0.5058824, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -25416,7 +25416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.20392157, g: 0.90588236, b: 0.89411765, a: 1}
+  m_Color: {r: 0, g: 0, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

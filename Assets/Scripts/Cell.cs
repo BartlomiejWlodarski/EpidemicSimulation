@@ -35,16 +35,14 @@ public class Cell : MonoBehaviour
     public List<uint> infected;
     public List<uint> exposed;
 
+    [Header("Traveler Visualisation")]
+    [SerializeField]
+    private TravelerSize travelerVisualisation;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         UpdateDiagram();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void UpdateDiagram()
@@ -100,6 +98,9 @@ public class Cell : MonoBehaviour
 
         incomingTravelers.N = incomingTravelers.I + incomingTravelers.R + incomingTravelers.E + susceptibleIncomingCommuters;
         outgoingTravelers.N = outgoingTravelers.I + outgoingTravelers.R + outgoingTravelers.E + outgoingTravelers.S;
+
+        // Travelers Visualisatios
+        travelerVisualisation.UpdateTravelerSize(incomingTravelers.N);
 
         float bottom = (float)population.N + (float)incomingTravelers.N - (float)outgoingTravelers.N;
 

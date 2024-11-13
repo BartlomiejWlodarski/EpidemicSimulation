@@ -39,9 +39,9 @@ public class SimulationManager : MonoBehaviour
 
     public float contactRate = 0.5f; // beta
 
-    public float mortalityRate; // u_vm
-    public float deathsPerStep; // u_d
-    public float birthsPerStep; // u_b
+    public float mortalityRate = 0.026f; // u_vm
+    public float deathsPerStep = 0.0000277f; // u_d
+    public float birthsPerStep = 0.0000270f; // u_b
 
     public float healthyCommuting = 0.055f; // phi_h
     public float infectedCommuting = 0.013f; // phi_s
