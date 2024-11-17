@@ -29,6 +29,9 @@ public class SimulationManager : MonoBehaviour
     public uint c;
     public uint r;
 
+    private bool isSimRunning = false;
+    private float secondsPerStep = 0.66f;
+    private float timer = 0;
 
     [Header("Input data")]
 
@@ -48,6 +51,10 @@ public class SimulationManager : MonoBehaviour
     public float outsideCommuting = 0.23f; // phi_c
 
     public uint outsideCommutingTarget = 75000; // Minimum population for travelers commuting outside of neighborhood
+
+    //ID of selected map
+    public uint mapID = 0;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -79,10 +86,25 @@ public class SimulationManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Step();
+        if (isSimRunning && Time.time > timer + secondsPerStep)
+        {
+            Step();
+            timer = Time.time;
+        }
     }
 
-    public void Step()
+    public void StartBtn()
+    {
+        isSimRunning = true;
+    }
+
+    public void StopBtn()
+    {
+        isSimRunning = false;
+    }
+
+
+    private void Step()
     {
         // Update cells and calculate
         foreach (Cell cell in cells)
