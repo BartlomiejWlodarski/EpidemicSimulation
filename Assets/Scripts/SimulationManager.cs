@@ -18,6 +18,14 @@ public class SimulationManager : MonoBehaviour
         public uint D;
     }
 
+    [Header("Maps data")]
+
+    public List<GameObject> maps = new List<GameObject>();
+    public List<Vector2> mapSizes = new List<Vector2>();
+
+    //ID of selected map
+    public int mapID = 0;
+
     public Population population;
 
     public List<Cell> cells; // Maybe change it to 2D array?
@@ -52,13 +60,24 @@ public class SimulationManager : MonoBehaviour
 
     public uint outsideCommutingTarget = 75000; // Minimum population for travelers commuting outside of neighborhood
 
-    //ID of selected map
-    public uint mapID = 0;
+    
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    // Setups the map and its cells
+    public void SimulationSetup()
     {
+        for (int i = 0; i < maps.Count; i++)
+        {
+            if (mapID != i)
+            {
+                maps[i].gameObject.SetActive(false);
+            }
+        }
+
+        cellsGrid = maps[mapID];
+        r = (uint)mapSizes[mapID].x;
+        c = (uint)mapSizes[mapID].y;
+
         // Add cells to the list
         for (int i = 1; i < cellsGrid.transform.childCount; i++)
         {
@@ -66,7 +85,7 @@ public class SimulationManager : MonoBehaviour
             cells[i - 1].col = (uint)(i - 1) % c;
             cells[i - 1].row = (uint)(i - 1 - cells[i - 1].col) / c;
         }
-        
+
         // Initialize cells and diagrams
         foreach (Cell cell in cells)
         {
@@ -109,31 +128,46 @@ public class SimulationManager : MonoBehaviour
         // Update cells and calculate
         foreach (Cell cell in cells)
         {
-            CommutingSimulation(cell);
+            if (cell.population.N > 0)
+            {
+                CommutingSimulation(cell);
+            }
         }
 
         foreach (Cell cell in cells)
         {
-            cell.InfectionProbability(contactRate, variationCoefficient);
+            if (cell.population.N > 0)
+            {
+                cell.InfectionProbability(contactRate, variationCoefficient);
 
-            Infection(cell);
+                Infection(cell);
+            }
         }
 
         foreach (Cell cell in cells)
         {
-            CommutersInfection(cell);
-            ReturnCommuters(cell);
+            if (cell.population.N > 0)
+            {
+                CommutersInfection(cell);
+                ReturnCommuters(cell);
+            }
         }
 
         foreach (Cell cell in cells)
         {
-            UpdateStates(cell);
+            if (cell.population.N > 0)
+            {
+                UpdateStates(cell); 
+            }
         }
 
         // Update diagrams
         foreach (Cell cell in cells)
         {
-            cell.UpdateDiagram();
+            if (cell.population.N > 0)
+            { 
+                cell.UpdateDiagram(); 
+            }
         }
 
         // Update the total population
@@ -307,7 +341,9 @@ public class SimulationManager : MonoBehaviour
                         maxCol = destCol;
                     }
 
-                    if (cells[destRow * (int)r + destCol].population.N >= outsideCommutingTarget && cells[destRow * (int)r + destCol].population.N >= cells[maxRow * (int)r + maxCol].population.N)
+                    if (cells[destRow * (int)r + destCol].population.N >= outsideCommutingTarget 
+                        && cells[destRow * (int)r + destCol].population.N >= cells[maxRow * (int)r + maxCol].population.N 
+                        && cells[destRow * (int)r + destCol].population.N > 0)
                     {
                         maxRow = destRow;
                         maxCol = destCol;

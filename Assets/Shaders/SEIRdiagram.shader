@@ -9,10 +9,10 @@ Shader "Custom/SEIRdiagram"
       _RecoveredPercent ("Recovered Percent", Float) = 0.2
 
       [Header(Susceptible)]_SusceptibleColor ("Susceptible color", Color) = (0, 1, 0, 1)
-      _SusceptiblePercent ("Susceptible Percent", Float) = 0.8
+      _SusceptiblePercent ("Susceptible Percent", Float) = 0.4
 
-      [Header(Exposed)]_ExposedColor ("Exposed color", Color) = (1, 0.5, 0, 0)
-      _ExposedPercent ("Exposed Percent", Float) = 0
+      [Header(Exposed)]_ExposedColor ("Exposed color", Color) = (1, 0.75, 0, 0)
+      _ExposedPercent ("Exposed Percent", Float) = 0.4
 
       [Header(Infected)]_InfectedColor ("Infected color", Color) = (1, 0, 0, 1)
       _InfectedPercent ("Infected Percent", Float) = 0.8

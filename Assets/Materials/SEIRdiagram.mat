@@ -99,12 +99,12 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _ExposedPercent: 0
+    - _ExposedPercent: 0.2
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Height: 1
-    - _InfectedPercent: 0.3
+    - _InfectedPercent: 0.1
     - _LifePercent: 0.5
     - _Metallic: 0
     - _OcclusionStrength: 1

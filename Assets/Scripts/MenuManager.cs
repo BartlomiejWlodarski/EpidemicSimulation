@@ -32,6 +32,7 @@ public class MenuManager : MonoBehaviour
     {
         simCanvas.SetActive(true);
         menuCanvas.SetActive(false);
+        sim.SimulationSetup();
     }
 
     public void OnResetParametersClick()
@@ -77,6 +78,6 @@ public class MenuManager : MonoBehaviour
                 mapSelectionButtons[i].GetComponent<Image>().color = notSelectedMapColor;
             }
         }
-        sim.mapID = (uint)mapIndex;
+        sim.mapID = mapIndex;
     }
 }
