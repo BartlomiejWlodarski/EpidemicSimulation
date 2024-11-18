@@ -77,7 +77,6 @@ public class SimulationManager : MonoBehaviour
         cellsGrid = maps[mapID];
         r = (uint)mapSizes[mapID].x;
         c = (uint)mapSizes[mapID].y;
-
         // Add cells to the list
         for (int i = 1; i < cellsGrid.transform.childCount; i++)
         {
