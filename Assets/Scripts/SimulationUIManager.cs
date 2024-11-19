@@ -10,6 +10,8 @@ public class SimulationUIManager : MonoBehaviour
     public List<TMP_Text> simulationInfoHeaders;
     public StatBarController statBar;
 
+    public GameObject endPopUp;
+
     private int lastDays = -1;
 
 
