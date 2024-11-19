@@ -115,7 +115,7 @@ public class SliderScript : MonoBehaviour
         {
             Debug.LogError("[DEFAULT VALUE ERROR]: Default value for parameter not found");
         }
-        UpdateTextBox();
+        OnValueChanged();
     }
     private void UpdateTextBox()
     {
