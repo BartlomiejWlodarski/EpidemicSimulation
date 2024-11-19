@@ -8426,6 +8426,7 @@ MonoBehaviour:
   infectedCommuting: 0
   outsideCommuting: 0
   outsideCommutingTarget: 50000
+  camera: {fileID: 330585543}
 --- !u!4 &272521203
 Transform:
   m_ObjectHideFlags: 0
@@ -10725,6 +10726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8ae8aef8034d464981d7f130ca52b11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 0
   turn: {x: 0, y: 0}
   sensitivity: 1
   deltaMove: {x: 0, y: 0, z: 0}

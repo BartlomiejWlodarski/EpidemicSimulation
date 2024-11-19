@@ -60,12 +60,14 @@ public class SimulationManager : MonoBehaviour
 
     public uint outsideCommutingTarget = 75000; // Minimum population for travelers commuting outside of neighborhood
 
-    
-
+    [Header("Camera object")]
+    public GameObject camera;
 
     // Setups the map and its cells
     public void SimulationSetup()
     {
+        camera.GetComponent<MouseCamera>().active = true;
+        
         for (int i = 0; i < maps.Count; i++)
         {
             if (mapID != i)
