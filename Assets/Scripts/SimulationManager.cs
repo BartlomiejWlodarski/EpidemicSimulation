@@ -110,6 +110,12 @@ public class SimulationManager : MonoBehaviour
         {
             Step();
             timer = Time.time;
+
+            if (population.I == 0 && population.E == 0)
+            {
+                FindFirstObjectByType<SimulationUIManager>().GetComponent<SimulationUIManager>().endPopUp.SetActive(true);
+                isSimRunning = false;
+            }
         }
     }
 
