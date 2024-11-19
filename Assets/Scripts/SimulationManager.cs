@@ -355,44 +355,47 @@ public class SimulationManager : MonoBehaviour
         }
 
         // Finding commuters count for neighborhood destination
-        Population[] commutersDestinations = new Population[neighborhoodDestinations.Count];
-
-        for (int i = 0; i < susceptibleCommutersNeighborhood; i++)
+        if (neighborhoodDestinations.Count > 0)
         {
-            int destination = UnityEngine.Random.Range(0, neighborhoodDestinations.Count);
-            commutersDestinations[destination].S++;
-        }
+            Population[] commutersDestinations = new Population[neighborhoodDestinations.Count];
 
-        for (int i = 0; i < recoveredCommutersNeighborhood; i++)
-        {
-            int destination = UnityEngine.Random.Range(0, neighborhoodDestinations.Count);
-            commutersDestinations[destination].R++;
-        }
+            for (int i = 0; i < susceptibleCommutersNeighborhood; i++)
+            {
+                int destination = UnityEngine.Random.Range(0, neighborhoodDestinations.Count);
+                commutersDestinations[destination].S++;
+            }
 
-        for (int i = 0; i < infectedCommutersNeighborhood; i++)
-        {
-            int destination = UnityEngine.Random.Range(0, neighborhoodDestinations.Count);
-            commutersDestinations[destination].I++;
-        }
+            for (int i = 0; i < recoveredCommutersNeighborhood; i++)
+            {
+                int destination = UnityEngine.Random.Range(0, neighborhoodDestinations.Count);
+                commutersDestinations[destination].R++;
+            }
 
-        for (int i = 0; i < exposedCommutersNeighborhood; i++)
-        {
-            int destination = UnityEngine.Random.Range(0, neighborhoodDestinations.Count);
-            commutersDestinations[destination].E++;
-        }
+            for (int i = 0; i < infectedCommutersNeighborhood; i++)
+            {
+                int destination = UnityEngine.Random.Range(0, neighborhoodDestinations.Count);
+                commutersDestinations[destination].I++;
+            }
 
-        // Neighborhood commuters
-        for (int i = 0; i < neighborhoodDestinations.Count; i++)
-        {
-            cells[neighborhoodDestinations[i]].incomingTravelers.I += (uint)commutersDestinations[i].I;
-            cells[neighborhoodDestinations[i]].incomingTravelers.E += (uint)commutersDestinations[i].E;
-            cells[neighborhoodDestinations[i]].incomingTravelers.R += (uint)commutersDestinations[i].R;
+            for (int i = 0; i < exposedCommutersNeighborhood; i++)
+            {
+                int destination = UnityEngine.Random.Range(0, neighborhoodDestinations.Count);
+                commutersDestinations[destination].E++;
+            }
 
-            IncomingTravelers travelersNeighborhood;
-            travelersNeighborhood.row = cell.row;
-            travelersNeighborhood.col = cell.col;
-            travelersNeighborhood.susceptibleTravelers = (uint)commutersDestinations[i].S;
-            cells[neighborhoodDestinations[i]].healthyIncomingTravelers.Add(travelersNeighborhood);
+            // Neighborhood commuters
+            for (int i = 0; i < neighborhoodDestinations.Count; i++)
+            {
+                cells[neighborhoodDestinations[i]].incomingTravelers.I += (uint)commutersDestinations[i].I;
+                cells[neighborhoodDestinations[i]].incomingTravelers.E += (uint)commutersDestinations[i].E;
+                cells[neighborhoodDestinations[i]].incomingTravelers.R += (uint)commutersDestinations[i].R;
+
+                IncomingTravelers travelersNeighborhood;
+                travelersNeighborhood.row = cell.row;
+                travelersNeighborhood.col = cell.col;
+                travelersNeighborhood.susceptibleTravelers = (uint)commutersDestinations[i].S;
+                cells[neighborhoodDestinations[i]].healthyIncomingTravelers.Add(travelersNeighborhood);
+            }
         }
 
         // Outside commuters
