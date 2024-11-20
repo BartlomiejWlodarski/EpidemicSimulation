@@ -38417,12 +38417,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 1322513837}
     m_Modifications:
     - target: {fileID: 5243564092040501252, guid: ebad773bb34db0a44b7939ef1d2bea47, type: 3}
+      propertyPath: population.I
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243564092040501252, guid: ebad773bb34db0a44b7939ef1d2bea47, type: 3}
       propertyPath: population.N
       value: 50000
       objectReference: {fileID: 0}
     - target: {fileID: 5243564092040501252, guid: ebad773bb34db0a44b7939ef1d2bea47, type: 3}
       propertyPath: population.S
-      value: 50000
+      value: 45000
       objectReference: {fileID: 0}
     - target: {fileID: 8573071884874909613, guid: ebad773bb34db0a44b7939ef1d2bea47, type: 3}
       propertyPath: m_Name
@@ -64558,12 +64562,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 1322513837}
     m_Modifications:
     - target: {fileID: 5243564092040501252, guid: ebad773bb34db0a44b7939ef1d2bea47, type: 3}
+      propertyPath: population.E
+      value: 30000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243564092040501252, guid: ebad773bb34db0a44b7939ef1d2bea47, type: 3}
       propertyPath: population.N
-      value: 50000
+      value: 95000
       objectReference: {fileID: 0}
     - target: {fileID: 5243564092040501252, guid: ebad773bb34db0a44b7939ef1d2bea47, type: 3}
       propertyPath: population.S
-      value: 50000
+      value: 65000
       objectReference: {fileID: 0}
     - target: {fileID: 8573071884874909613, guid: ebad773bb34db0a44b7939ef1d2bea47, type: 3}
       propertyPath: m_Name
